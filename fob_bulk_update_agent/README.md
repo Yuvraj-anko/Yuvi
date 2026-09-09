@@ -27,8 +27,10 @@ python -m agent \
   -v
 ```
 
-Optional: set a specific output path with `-o /path/to/cleaned.csv`.
+Output keeps the **same filename** as the upload, written under `data/output/`  
+(e.g. `data/output/FOB_BULK_UPLOAD_LAURA_SMITH_7.09.csv`).
 
+Optional: set a different path with `-o /path/to/cleaned.csv`.
 ## Header mapping
 
 | Business header | Cleaned header |

@@ -6,7 +6,6 @@ import argparse
 import json
 import logging
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 
 from agent.transform import summarize, transform_csv
@@ -32,7 +31,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--output",
         "-o",
-        help="Cleaned CSV output path (default: data/output/<input>_cleaned_<ts>.csv)",
+        help=(
+            "Cleaned CSV output path "
+            "(default: data/output/<same original filename>)"
+        ),
     )
     parser.add_argument(
         "--verbose",
@@ -44,9 +46,8 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def _default_output_path(input_path: Path) -> Path:
-    ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    name = f"{input_path.stem}_cleaned_{ts}.csv"
-    return DEFAULT_OUTPUT_DIR / name
+    """Keep the uploaded file's original name; write under data/output/."""
+    return DEFAULT_OUTPUT_DIR / input_path.name
 
 
 def main(argv: list[str] | None = None) -> int:
