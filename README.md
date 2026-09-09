@@ -4,5 +4,6 @@
 
 See [`fob_bulk_update_agent/README.md`](fob_bulk_update_agent/README.md).
 
-Cleans FOB Indent PO bulk-upload CSVs: rename headers and strip case-pack
-`*` suffixes from product ids.
+Shared **upload/download web app** that cleans FOB Indent PO bulk-upload CSVs
+(rename headers + strip case-pack `*` suffixes). End users only need the URL —
+not GitHub or Cursor access.

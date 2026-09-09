@@ -6,31 +6,38 @@ Cleans business FOB bulk-upload CSVs for the Confluence BAU procedure
 ## What it does
 
 1. Rename headers to `PGM_PO_NUMBER`, `PRD_LVL_NUMBER`, `NEW_FOB`
-   (accepts `PO Number` / `CASE PACK ID` / `FOB` and common aliases)
-2. Strip case-pack suffix from product id: everything from `*` to end
-   (e.g. `72647646*2A` → `72647646`)
+2. Strip case-pack suffix from product id (`72647646*2A` → `72647646`)
+3. Return a download with the **same original filename**
 
-## Setup
+## Web app (recommended for shared use)
+
+Anyone with the URL can upload a CSV and download the cleaned file — **no GitHub or Cursor access required**.
 
 ```bash
 cd fob_bulk_update_agent
 python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+bash scripts/run_web.sh
+# open http://localhost:8000
 ```
 
-## Run
+Host / port overrides:
 
 ```bash
-python -m agent \
-  --input data/input/FOB_BULK_UPLOAD_LAURA_SMITH_7.09.csv \
-  -v
+HOST=0.0.0.0 PORT=8080 bash scripts/run_web.sh
 ```
 
-Output keeps the **same filename** as the upload, written under `data/output/`  
-(e.g. `data/output/FOB_BULK_UPLOAD_LAURA_SMITH_7.09.csv`).
+Put this behind your company VPN / internal host and share the URL with the BAU group. New joiners only need the link (and network access), not the private repo.
 
-Optional: set a different path with `-o /path/to/cleaned.csv`.
+## CLI (optional)
+
+```bash
+python -m agent --input data/input/FOB_BULK_UPLOAD_LAURA_SMITH_7.09.csv -v
+```
+
+Output: `data/output/<same original filename>`.
+
 ## Header mapping
 
 | Business header | Cleaned header |
