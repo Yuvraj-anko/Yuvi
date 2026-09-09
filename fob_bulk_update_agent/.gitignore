@@ -1,7 +1,3 @@
-secrets/*.key
-secrets/*.enc
-secrets/*.json
-!secrets/.gitkeep
 data/output/*
 !data/output/.gitkeep
 __pycache__/
