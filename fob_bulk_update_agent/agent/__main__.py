@@ -11,20 +11,18 @@ from pathlib import Path
 
 from agent.credentials import load_encrypted_credentials
 from agent.db import DbConfig, load_csv_to_db
-from agent.drop import DEFAULT_UNC, drop_file
 from agent.transform import summarize, transform_csv
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT_DIR = ROOT / "data" / "output"
-DEFAULT_STAGING_DIR = ROOT / "data" / "staging" / "po_amendments"
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
-            "FOB Indent PO Bulk Update agent — clean CSV, drop to "
-            "po_amendments, load PROD_SUPPORT.BAU_INDENT_PO_FOB_UPD, "
-            "run Confluence PL/SQL update + validation."
+            "FOB Indent PO Bulk Update agent — clean CSV, load "
+            "PROD_SUPPORT.BAU_INDENT_PO_FOB_UPD, run Confluence PL/SQL "
+            "update + validation."
         )
     )
     parser.add_argument(
@@ -39,20 +37,6 @@ def build_parser() -> argparse.ArgumentParser:
         help="Cleaned CSV output path (default: data/output/<input>_cleaned_<ts>.csv)",
     )
     parser.add_argument(
-        "--drop-path",
-        default=None,
-        help=(
-            "Destination directory for cleaned CSV. "
-            f"Default UNC: {DEFAULT_UNC}  "
-            "Override with FOB_PO_AMENDMENTS_PATH on Linux mounts."
-        ),
-    )
-    parser.add_argument(
-        "--local-staging",
-        action="store_true",
-        help=f"Also copy cleaned CSV to local staging mirror: {DEFAULT_STAGING_DIR}",
-    )
-    parser.add_argument(
         "--credentials-file",
         help="Fernet-encrypted credentials file (or FOB_DB_CREDENTIALS_FILE)",
     )
@@ -61,14 +45,9 @@ def build_parser() -> argparse.ArgumentParser:
         help="Fernet key file (or FOB_DB_KEY_FILE / FOB_DB_KEY)",
     )
     parser.add_argument(
-        "--skip-drop",
-        action="store_true",
-        help="Skip copying file to po_amendments path",
-    )
-    parser.add_argument(
         "--skip-db",
         action="store_true",
-        help="Skip Oracle load / PL/SQL (transform + drop only)",
+        help="Skip Oracle load / PL/SQL (transform only)",
     )
     parser.add_argument(
         "--skip-update",
@@ -83,7 +62,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="Transform only; simulate drop + DB steps without side effects",
+        help="Transform only; simulate DB steps without side effects",
     )
     parser.add_argument(
         "--verbose",
@@ -133,41 +112,8 @@ def main(argv: list[str] | None = None) -> int:
         "cleaned_csv": str(output_path),
         "stats": stats,
         "dry_run": args.dry_run,
-        "drop": None,
         "db": None,
     }
-
-    # Local staging mirror (useful when UNC is not mounted in this environment)
-    if args.local_staging:
-        local_dest = drop_file(output_path, DEFAULT_STAGING_DIR, dry_run=False)
-        report["local_staging"] = str(local_dest)
-        log.info("Local staging: %s", local_dest)
-
-    if not args.skip_drop:
-        drop_dest = args.drop_path
-        if args.dry_run and not drop_dest:
-            # Materialize under local staging during dry-run (UNC usually unreachable)
-            drop_dest = str(DEFAULT_STAGING_DIR)
-            dropped = drop_file(output_path, drop_dest, dry_run=False)
-            report["drop"] = str(dropped)
-            log.info("Dry-run drop mirrored to %s (UNC default: %s)", dropped, DEFAULT_UNC)
-        else:
-            try:
-                dropped = drop_file(
-                    output_path,
-                    drop_dest,
-                    dry_run=args.dry_run,
-                )
-                report["drop"] = str(dropped)
-            except OSError as exc:
-                log.error(
-                    "Failed to drop file to po_amendments path (%s): %s. "
-                    "Mount the share or set --drop-path / FOB_PO_AMENDMENTS_PATH.",
-                    drop_dest or DEFAULT_UNC,
-                    exc,
-                )
-                if not args.dry_run:
-                    return 3
 
     if not args.skip_db:
         if args.dry_run:

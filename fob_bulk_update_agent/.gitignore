@@ -4,8 +4,6 @@ secrets/*.json
 !secrets/.gitkeep
 data/output/*
 !data/output/.gitkeep
-data/staging/**
-!data/staging/.gitkeep
 __pycache__/
 *.pyc
 .venv/

@@ -10,12 +10,9 @@ Automates the Confluence BAU procedure
      (accepts `PO Number` / `CASE PACK ID` / `FOB` and common aliases)
    - Strip case-pack suffix from product id: everything from `*` to end
      (e.g. `72647646*2A` → `72647646`)
-2. **Drop cleaned CSV** to  
-   `\\hrs1502\sms_prod_sms\prod\trans\in\po_amendments`  
-   (override with `--drop-path` or `FOB_PO_AMENDMENTS_PATH` for a Linux mount)
-3. **Load** rows into `PROD_SUPPORT.BAU_INDENT_PO_FOB_UPD` with `process_date = NULL`
-4. **Run** the Confluence update PL/SQL block
-5. **Run** the optional validation PL/SQL block
+2. **Load** rows into `PROD_SUPPORT.BAU_INDENT_PO_FOB_UPD` with `process_date = NULL`
+3. **Run** the Confluence update PL/SQL block
+4. **Run** the optional validation PL/SQL block
 
 Database credentials are **Fernet-encrypted** — never stored in plaintext.
 
@@ -54,37 +51,31 @@ export FOB_DB_KEY="$(cat secrets/db.key)"
 
 ## Run
 
-Dry-run (transform + simulate drop/DB — safe, no Oracle connection):
+Dry-run (transform + simulate DB — safe, no Oracle connection):
 
 ```bash
 python -m agent \
   --input data/input/FOB_BULK_UPLOAD_LAURA_SMITH_7.09.csv \
-  --local-staging \
   --dry-run \
   -v
 ```
 
-Full production run (after credentials are encrypted and share is reachable):
+Full production run (after credentials are encrypted):
 
 ```bash
-# Windows / UNC available:
-python -m agent -i path\to\business.csv
-
-# Linux with mounted share:
-export FOB_PO_AMENDMENTS_PATH=/mnt/hrs1502/sms_prod_sms/prod/trans/in/po_amendments
-python -m agent -i ./business.csv --credentials-file secrets/db_credentials.enc --key-file secrets/db.key
+python -m agent -i ./business.csv \
+  --credentials-file secrets/db_credentials.enc \
+  --key-file secrets/db.key
 ```
 
 Useful flags:
 
 | Flag | Meaning |
 |------|---------|
-| `--skip-drop` | Transform (+ DB) only |
-| `--skip-db` | Transform + drop only |
+| `--skip-db` | Transform only |
 | `--skip-update` | Load staging table, do not run update PL/SQL |
 | `--skip-validation` | Skip validation PL/SQL |
-| `--local-staging` | Also copy cleaned CSV under `data/staging/po_amendments/` |
-| `--dry-run` | No network share write, no DB writes |
+| `--dry-run` | No DB writes |
 
 ## Header mapping
 
@@ -98,4 +89,4 @@ Useful flags:
 
 - Staging insert maps `PGM_PO_NUMBER` → table column `pmg_po_number` (Confluence PL/SQL).
 - `process_date` is left `NULL` on insert so the update cursor picks up new rows.
-- This cloud environment cannot reach `\\hrs1502\...` or corporate Oracle; use `--dry-run` here and run the full agent from a host with network access.
+- This cloud environment cannot reach corporate Oracle; use `--dry-run` here and run the full agent from a host with DB access.
