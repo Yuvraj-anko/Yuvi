@@ -1,0 +1,5 @@
+{
+  "name": "FOB Indent PO CSV Cleaner",
+  "user": "ubuntu",
+  "install": "bash .cursor/install.sh"
+}
