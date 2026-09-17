@@ -58,6 +58,23 @@ def strip_case_pack_suffix(value) -> str:
     return CASE_PACK_STAR_RE.sub("", text).strip()
 
 
+def normalize_fob(value) -> float | None:
+    """Parse FOB amounts that may include currency symbols (e.g. ``$4.54``)."""
+    if value is None or (isinstance(value, float) and pd.isna(value)):
+        return None
+    text = str(value).strip()
+    if not text:
+        return None
+    # Remove currency symbols / thousands separators commonly seen in exports
+    text = re.sub(r"[^\d.\-]", "", text.replace(",", ""))
+    if text in {"", "-", ".", "-."}:
+        return None
+    try:
+        return float(text)
+    except ValueError:
+        return None
+
+
 def transform_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     """Rename headers, strip case-pack suffixes, keep only required columns."""
     renamed = {_normalize_header(col): df[col] for col in df.columns}
@@ -75,7 +92,7 @@ def transform_dataframe(df: pd.DataFrame) -> pd.DataFrame:
         lambda v: "" if pd.isna(v) else str(v).strip()
     )
     out["PRD_LVL_NUMBER"] = out["PRD_LVL_NUMBER"].map(strip_case_pack_suffix)
-    out["NEW_FOB"] = pd.to_numeric(out["NEW_FOB"], errors="coerce")
+    out["NEW_FOB"] = out["NEW_FOB"].map(normalize_fob)
 
     # Drop blank / invalid rows
     out = out[
