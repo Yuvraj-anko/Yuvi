@@ -33,6 +33,7 @@ HEADER_ALIASES = {
     "case pack id": "PRD_LVL_NUMBER",
     "case_pack_id": "PRD_LVL_NUMBER",
     "casepack id": "PRD_LVL_NUMBER",
+    "cpid": "PRD_LVL_NUMBER",
     "product#": "PRD_LVL_NUMBER",
     "product": "PRD_LVL_NUMBER",
     "product number": "PRD_LVL_NUMBER",
