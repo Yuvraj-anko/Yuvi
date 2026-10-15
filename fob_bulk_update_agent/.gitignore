@@ -1,0 +1,9 @@
+data/output/*
+!data/output/.gitkeep
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+*.log
+.DS_Store
