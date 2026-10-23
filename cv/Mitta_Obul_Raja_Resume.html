@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mitta Obul Raja — Resume</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "DejaVu Sans", "Noto Sans", Arial, sans-serif;
+      font-size: 9.5pt;
+      color: #1a1a1a;
+      background: #fff;
+      line-height: 1.35;
+    }
+
+    .page {
+      display: flex;
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+    }
+
+    /* Left sidebar */
+    .sidebar {
+      width: 68mm;
+      background: #e8e8e8;
+      position: relative;
+      padding: 0 0 24px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .name-banner {
+      background: #1e4d8c;
+      color: #fff;
+      padding: 22px 14px 18px;
+      clip-path: polygon(0 0, 100% 0, 100% 78%, 0 100%);
+      min-height: 78px;
+    }
+
+    .name-banner h1 {
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+    }
+
+    .sidebar-body {
+      padding: 18px 16px 12px;
+      flex: 1;
+    }
+
+    .sidebar h2 {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #111;
+      margin: 14px 0 8px;
+    }
+
+    .sidebar h2:first-child {
+      margin-top: 0;
+    }
+
+    .detail {
+      margin-bottom: 8px;
+      font-size: 9pt;
+      word-break: break-word;
+    }
+
+    .detail .label {
+      font-weight: 700;
+      display: block;
+      margin-bottom: 1px;
+    }
+
+    .skills {
+      list-style: none;
+    }
+
+    .skills li {
+      margin-bottom: 5px;
+      font-size: 9pt;
+      padding-left: 12px;
+      position: relative;
+    }
+
+    .skills li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      font-weight: 700;
+    }
+
+    .lang {
+      margin-bottom: 8px;
+      font-size: 9pt;
+    }
+
+    .dots {
+      display: inline-block;
+      margin-left: 4px;
+      letter-spacing: 2px;
+      font-size: 8pt;
+      vertical-align: middle;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #1e4d8c;
+      margin-right: 2px;
+    }
+
+    .dot.empty {
+      background: transparent;
+      border: 1.5px solid #1e4d8c;
+    }
+
+    .sidebar-footer {
+      height: 48px;
+      background: #1e4d8c;
+      clip-path: polygon(0 35%, 100% 0, 100% 100%, 0 100%);
+      margin-top: auto;
+    }
+
+    /* Main column */
+    .main {
+      flex: 1;
+      padding: 18px 18px 20px 20px;
+    }
+
+    .main h2 {
+      font-size: 11pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #111;
+      border-bottom: 1.5px solid #1e4d8c;
+      padding-bottom: 3px;
+      margin: 12px 0 7px;
+    }
+
+    .main h2:first-child {
+      margin-top: 0;
+    }
+
+    .objective {
+      font-size: 9pt;
+      text-align: justify;
+    }
+
+    .main ul {
+      padding-left: 14px;
+      margin: 0;
+    }
+
+    .main li {
+      margin-bottom: 3px;
+      font-size: 9pt;
+    }
+
+    .edu-row,
+    .job-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 4px;
+      font-size: 9.5pt;
+    }
+
+    .job-title {
+      font-weight: 700;
+    }
+
+    .job-dates {
+      font-size: 9pt;
+      white-space: nowrap;
+      color: #333;
+    }
+
+    .company {
+      font-size: 9.5pt;
+      margin-bottom: 2px;
+    }
+
+    .declaration {
+      font-size: 9pt;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <aside class="sidebar">
+      <div class="name-banner">
+        <h1>Mitta Obul Raja</h1>
+      </div>
+
+      <div class="sidebar-body">
+        <h2>Personal details</h2>
+        <div class="detail">
+          <span class="label">Name</span>
+          Mitta Obul Raja
+        </div>
+        <div class="detail">
+          <span class="label">Email</span>
+          Syasanthosh1983@gmail.com
+        </div>
+        <div class="detail">
+          <span class="label">Phone</span>
+          9035350970
+        </div>
+
+        <h2>Skills</h2>
+        <ul class="skills">
+          <li>Logistics Management</li>
+          <li>Shipment Coordination</li>
+          <li>Team Supervision</li>
+          <li>Route Planning</li>
+          <li>Customer Service</li>
+          <li>Documentation Management</li>
+          <li>Problem Resolution</li>
+        </ul>
+
+        <h2>Languages</h2>
+        <div class="lang">
+          Telugu
+          <span class="dots">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          </span>
+        </div>
+        <div class="lang">
+          Kanada
+          <span class="dots">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          </span>
+        </div>
+        <div class="lang">
+          Tamil
+          <span class="dots">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          </span>
+        </div>
+        <div class="lang">
+          English
+          <span class="dots">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot empty"></span>
+          </span>
+        </div>
+      </div>
+
+      <div class="sidebar-footer"></div>
+    </aside>
+
+    <main class="main">
+      <h2>Career Objective</h2>
+      <p class="objective">
+        To work as a Logistics Shift In-Charge in a reputed organization where I can
+        utilize my experience in logistics operations, warehouse management, dispatch
+        planning, manpower handling, and transportation coordination to achieve daily
+        operational targets.
+      </p>
+
+      <h2>Professional Summary</h2>
+      <ul>
+        <li>7 years of experience in logistics and warehouse operations.</li>
+        <li>Experience in shift handling, manpower allocation, and daily operations management.</li>
+        <li>Knowledge of inbound and outbound material movement.</li>
+        <li>Experience in dispatch planning, vehicle coordination, and shipment tracking.</li>
+        <li>Skilled in maintaining daily reports, inventory records, and shift handover reports.</li>
+        <li>Good team management, communication, and problem-solving skills.</li>
+      </ul>
+
+      <h2>Education</h2>
+      <div class="edu-row">
+        <span>10th Class</span>
+      </div>
+
+      <h2>Employment</h2>
+      <div class="job-row">
+        <span class="job-title">Shift Incharge</span>
+        <span class="job-dates">Apr 2026 - Sep 2026</span>
+      </div>
+      <div class="company">Bluesmart</div>
+
+      <h2>Job Responsibilities</h2>
+      <ul>
+        <li>Manage daily logistics operations during the assigned shift.</li>
+        <li>Plan and monitor inbound and outbound shipments.</li>
+        <li>Coordinate vehicle placement, loading, unloading, and dispatch activities.</li>
+        <li>Allocate manpower based on daily workload and operational requirements.</li>
+        <li>Ensure timely dispatch of shipments and delivery schedules.</li>
+        <li>Track shipment status and coordinate with transporters and drivers.</li>
+        <li>Monitor material movement and maintain accurate shipment records.</li>
+        <li>Coordinate with warehouse, inventory, customer service, and transport teams.</li>
+        <li>Prepare daily MIS reports, dispatch reports, and shift performance reports.</li>
+        <li>Handle shipment delays, operational issues, and customer escalations.</li>
+        <li>Monitor vehicle utilization and ensure proper documentation.</li>
+        <li>Maintain proof of delivery (POD), invoices, delivery challans, and other dispatch documents.</li>
+        <li>Ensure compliance with safety procedures and company policies.</li>
+        <li>Conduct proper shift handover and communicate pending activities to the next shift.</li>
+        <li>Monitor productivity and ensure achievement of daily logistics targets.</li>
+      </ul>
+
+      <h2>Declaration</h2>
+      <p class="declaration">
+        I hereby declare that the information provided above is true and correct to the
+        best of my knowledge.
+      </p>
+    </main>
+  </div>
+</body>
+</html>
